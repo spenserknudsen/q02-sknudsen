@@ -18,3 +18,22 @@ TEST(PiezasTest, sanityCheck)
 {
 	ASSERT_TRUE(true);
 }
+
+TEST(PiezasTest, rowLength)
+{
+	const int BOARD_ROWS = 4;
+	EXPECT_NE(BOARD_ROWS, 3);
+}
+
+TEST(PiezasTest, colHeight)
+{
+	const int BOARD_COLS = 3;
+	EXPECT_NE(BOARD_COLS, 4);
+}
+
+TEST(PiezasTest, outOfBounds)
+{
+	ASSERT_TRUE(BOARD_ROWS = 3);
+	ASSERT_TRUE(BOARD_COLS = 4);	
+}
+

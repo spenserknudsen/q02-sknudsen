@@ -13,23 +13,38 @@
  * [0,0][0,1][0,2][0,3]
  * So that a piece dropped in column 2 should take [0,2] and the next one
  * dropped in column 2 should take [1,2].
-**/
+ **/
 
 
 /**
  * Constructor sets an empty board (default 3 rows, 4 columns) and 
  * specifies it is X's turn first
-**/
+ **/
 Piezas::Piezas()
 {
+	turn = X;
+	for(int i = 0; i < BOARD_ROWS; i++)
+	{
+		for(int j = 0; j < BOARD_COLS; j++)
+		{
+			board[i][j] = Blank;
+		}
+	}
 }
 
 /**
  * Resets each board location to the Blank Piece value, with a board of the
  * same size as previously specified
-**/
+ **/
 void Piezas::reset()
 {
+	for(int i = 0; i < BOARD_ROWS; i++)
+	{
+		for(int j = 0; j < BOARD_COLS; j++)
+		{
+			board[i][j] = Blank;
+		}
+	}
 }
 
 /**
@@ -39,19 +54,38 @@ void Piezas::reset()
  * In that case, placePiece returns Piece Blank value 
  * Out of bounds coordinates return the Piece Invalid value
  * Trying to drop a piece where it cannot be placed loses the player's turn
-**/ 
+ **/ 
 Piece Piezas::dropPiece(int column)
 {
-    return Blank;
+	if(column == 0 || column == 1 || column == 2 || column ==3)
+	{
+		for(int i = 0; i < 3; i++)
+		{
+			if(pieceAt(i, column) == Blank)
+			{
+				board[i, column] = turn;
+			}
+		}
+		return Blank;
+	}
+	else
+	{
+		return Invalid;
+	}
 }
 
 /**
  * Returns what piece is at the provided coordinates, or Blank if there
  * are no pieces there, or Invalid if the coordinates are out of bounds
-**/
+ **/
 Piece Piezas::pieceAt(int row, int column)
 {
-    return Blank;
+	if(row > 2 || column > 3)
+	{
+		return Invalid;
+	}
+	return board[row, column];
+
 }
 
 /**
@@ -62,8 +96,241 @@ Piece Piezas::pieceAt(int row, int column)
  * the most adjacent pieces in a single line. Lines can go either vertically
  * or horizontally. If both X's and O's have the same max number of pieces in a
  * line, it is a tie.
-**/
+ **/
 Piece Piezas::gameState()
 {
-    return Blank;
+	int xStreak = 1;
+	int oStreak = 1;
+	for(int j = 0; j < 4; j++)
+	{
+		if(pieceAt(0,j) == pieceAt(1,j))
+		{
+			if(pieceAt(0,j) == pieceAt(2,j))
+			{
+				if(pieceAt(0,j) == 'X')
+				{
+					if(3 > xStreak)
+					{
+						xStreak = 3;
+					}
+				}
+				else if(pieceAt(0,j) == 'O')
+				{
+					if(3 > oStreak)
+					{
+						oStreak = 3;
+					}
+				}
+
+
+			}
+			else
+			{
+				if(pieceAt(0,j) == 'X')
+				{
+					if(2 > xStreak)
+					{
+						xStreak = 2;
+					}
+				}
+				else if(pieceAt(0,j) == 'O')
+				{
+					if(2 > oStreak)
+					{
+						oStreak = 2;
+					}
+				}
+
+
+				//return streak of 2
+			}
+		}
+		else if(pieceAt(1,j) == pieceAt(2,j))
+		{
+			if(pieceAt(0,j) == 'X')
+			{
+				if(2 > xStreak)
+				{
+					xStreak = 2;
+				}
+			}
+			else if(pieceAt(0,j) == 'O')
+			{
+				if(2 > oStreak)
+				{
+					oStreak = 2;
+				}
+			}
+
+
+			//return streak of 2
+		}
+		else
+		{
+			//return no streak
+		}
+
+	}
+
+	for(int i = 0; i < 3; i++)
+	{
+		if(pieceAt(i,0) == pieceAt(i, 1))
+		{
+			if(pieceAt(i,0) == pieceAt(i, 2))
+			{
+				if(pieceAt(i,0) == pieceAt(i,3))
+				{
+					if(pieceAt(0,j) == 'X')
+					{
+						if(4 > xStreak)
+						{
+							xStreak = 4;
+						}
+					}
+					else if(pieceAt(0,j) == 'O')
+					{
+						if(4 > oStreak)
+						{
+							oStreak = 4;
+						}
+					}
+
+
+					//streak of 4
+				}
+				else
+				{
+					if(pieceAt(0,j) == 'X')
+					{
+						if(3 > xStreak)
+						{
+							xStreak = 3;
+						}
+					}
+					else if(pieceAt(0,j) == 'O')
+					{
+						if(3 > oStreak)
+						{
+							oStreak = 3;
+						}
+					}
+
+
+					//streak of 3
+				
+				}
+			}
+			else
+			{
+				if(pieceAt(0,j) == 'X')
+				{
+					if(2 > xStreak)
+					{
+						xStreak = 2;
+					}
+				}
+				else if(pieceAt(0,j) == 'O')
+				{
+					if(2 > oStreak)
+					{
+						oStreak = 2;
+					}
+				}
+
+
+				//streak of 2
+			}
+		}
+		else if(pieceAt(i,1) == pieceAt(i, 2))
+		{
+			if(pieceAt(i,1) == pieceAt(i,3))
+			{
+				if(pieceAt(0,j) == 'X')
+				{
+					if(3 > xStreak)
+					{
+						xStreak = 3;
+					}
+				}
+				else if(pieceAt(0,j) == 'O')
+				{
+					if(3 > oStreak)
+					{
+						oStreak = 3;
+					}
+				}
+
+
+				//streak of 3
+			}
+			else
+			{
+				if(pieceAt(0,j) == 'X')
+				{
+					if(2 > xStreak)
+					{
+						xStreak = 2;
+					}
+				}
+				else if(pieceAt(0,j) == 'O')
+				{
+					if(2 > oStreak)
+					{
+						oStreak = 2;
+					}
+				}
+
+
+				//streak of 2
+			}
+		}
+		else if(pieceAt(i,2) == pieceAt(i,3))
+		{
+			if(pieceAt(0,j) == 'X')
+			{
+				if(2 > xStreak)
+				{
+					xStreak = 2;
+				}
+			}
+			else if(pieceAt(0,j) == 'O')
+			{
+				if(2 > oStreak)
+				{
+					oStreak = 2;
+				}
+			}
+
+
+			//streak of 2
+		}
+		else
+		{
+			//no streak
+		}
+	}
+	if(xStreak > oStreak)
+	{
+		return X;
+	}
+	else if(oStreak > xStreak)
+	{
+		return O;
+	}
+	else
+	{
+		return Blank;
+	}
+}
+
+Piece Piezas::toggleTurn()
+{
+	if(turn = 'X')
+	{
+		turn = O;
+	}
+	else
+	{
+		turn = X;
+	}
 }
